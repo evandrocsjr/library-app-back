@@ -22,4 +22,7 @@ public class BookService {
         return bookList.stream().map(b -> mapper.map(b, BookDTO.class)).collect(Collectors.toList());
     }
 
+    public BookDTO getBookById(Long id) {
+        return new ModelMapper().map(bookRepository.findById(id), BookDTO.class);
+    }
 }

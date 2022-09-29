@@ -1,13 +1,12 @@
 package com.library.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-
+@Getter
+@Setter
 public class BookDTO {
 
     private Long bookId;

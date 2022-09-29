@@ -1,5 +1,8 @@
 server:
-  port: 8443
+  error:
+    include-stacktrace: never
+    include-message: always
+  port: 8445
 
 spring:
     mvc:
@@ -12,4 +15,6 @@ spring:
     jpa:
       hibernate:
         ddl-auto: update
+      open-in-view: false
       database-platform: org.hibernate.dialect.MySQL8Dialect
+      show-sql: true
