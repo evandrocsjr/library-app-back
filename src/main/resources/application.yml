@@ -1,9 +1,8 @@
 server:
+  port: 8443
   error:
     include-stacktrace: never
     include-message: always
-  port: 8445
-
 spring:
     mvc:
       pathmatch:
