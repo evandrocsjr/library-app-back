@@ -1,4 +1,4 @@
-package com.library.api.domain.book.repository.entity;
+package com.library.api.domain.author.repository.entity;
 
 import lombok.*;
 
@@ -6,11 +6,11 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "book")
+@Table(name = "author")
 @Builder
-@Getter @Setter
+@Setter @Getter
 @AllArgsConstructor @NoArgsConstructor
-public class Book {
+public class Author {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,12 +20,5 @@ public class Book {
     private String name;
 
     @Column
-    private String description;
-
-    @Column
     private Date createdAt;
-
-    @Column
-    private Date releaseDate;
-
 }

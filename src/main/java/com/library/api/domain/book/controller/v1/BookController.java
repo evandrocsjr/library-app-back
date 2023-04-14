@@ -1,4 +1,4 @@
-package com.library.api.domain.book.controller;
+package com.library.api.domain.book.controller.v1;
 
 import com.library.api.domain.book.controller.v1.dto.BookWebDTO;
 import com.library.api.domain.book.service.BookService;
