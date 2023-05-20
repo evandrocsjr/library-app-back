@@ -22,7 +22,7 @@ public class User {
     private String name;
 
     @Column
-    private String telephone;
+    private String phone;
 
     @Column
     private String email;

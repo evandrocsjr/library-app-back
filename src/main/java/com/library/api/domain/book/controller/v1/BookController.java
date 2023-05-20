@@ -35,11 +35,19 @@ public class BookController {
         return mapper.map(newBook, BookWebDTO.class);
     }
 
-    @GetMapping
+    @GetMapping("/getAllByLicense")
     @ApiOperation("Recupera os Livros da licença.")
     @ResponseStatus(HttpStatus.OK)
-    public List<BookDTO> getAll(){
-        return bookService.getAllBooks();
+    public List<BookDTO> getAllByLicense(){
+        return bookService.getAllBooksByLicense();
+    }
+
+    @GetMapping
+    @ApiOperation("Recupera os Livros da Licença(resultado paginado).")
+    @ResponseStatus(HttpStatus.OK)
+    public List<BookDTO> getAll(@RequestParam("name") String bookName,
+                                @RequestParam("page") int page) {
+        return bookService.getAllBooksFiltered(bookName, page - 1);
     }
 
     @GetMapping(path = "/{id}")
