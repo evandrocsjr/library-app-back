@@ -45,7 +45,7 @@ public class BookController {
     @GetMapping
     @ApiOperation("Recupera os Livros da Licença(resultado paginado).")
     @ResponseStatus(HttpStatus.OK)
-    public List<BookDTO> getAll(@RequestParam("name") String bookName,
+    public List<BookDTO> getAll(@RequestParam(value = "name", required = false) String bookName,
                                 @RequestParam("page") int page) {
         return bookService.getAllBooksFiltered(bookName, page - 1);
     }

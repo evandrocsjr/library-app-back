@@ -7,6 +7,7 @@ import com.library.api.domain.author.service.dto.AuthorDTO;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -26,6 +27,7 @@ public class AuthorService extends DefaultService {
         return mapper.map(authorDb, AuthorDTO.class);
     }
 
+    @Transactional
     public List<AuthorDTO> getAllAuthorsByLicense() {
         ModelMapper mapper = new ModelMapper();
         List<Author> authorDbList = authorRepository.findAll();

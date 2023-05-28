@@ -9,6 +9,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -27,8 +28,10 @@ public class BookService extends DefaultService {
         return mapper.map(bookDb, BookDTO.class);
     }
 
+    @Transactional
     public List<BookDTO> getAllBooksByLicense() {
         List<Book> bookList = bookRepository.findAll();
+        bookRepository.findByIdListFetchAuthors(bookList);
         ModelMapper mapper = new ModelMapper();
         return bookList.stream().map(b -> mapper.map(b, BookDTO.class)).collect(Collectors.toList());
     }
@@ -37,13 +40,9 @@ public class BookService extends DefaultService {
         Pageable pageable = PageRequest.of(page, DEFAULT_PAGE_SIZE);
         List<Book> list;
         ModelMapper mapper = new ModelMapper();
-
-        System.out.println(bookName);
         list = bookRepository.findAllByNameContaining(bookName, pageable);
-        System.out.println(list);
 
         return list.stream().map(b -> mapper.map(b, BookDTO.class)).collect(Collectors.toList());
-
     }
 
     public BookDTO getBookById(Long id) {

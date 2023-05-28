@@ -1,8 +1,10 @@
 package com.library.api.domain.book.service.dto;
 
+import com.library.api.domain.author.service.dto.AuthorDTO;
 import lombok.*;
 
 import java.util.Date;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,5 +18,6 @@ public class BookDTO {
     private String description;
     private Date createdAt;
     private Date releaseDate;
+    private List<AuthorDTO> authors;
 
 }
