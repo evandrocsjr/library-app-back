@@ -38,7 +38,7 @@ public class BookController {
     @GetMapping("/getAllByLicense")
     @ApiOperation("Recupera os Livros da licença.")
     @ResponseStatus(HttpStatus.OK)
-    public List<BookDTO> getAllByLicense(){
+    public List<BookDTO> getAllByLicense() {
         return bookService.getAllBooksByLicense();
     }
 
@@ -53,7 +53,14 @@ public class BookController {
     @GetMapping(path = "/{id}")
     @ApiOperation("Recupera um Livro através do id.")
     @ResponseStatus(HttpStatus.OK)
-    public BookDTO getById(@PathVariable Long id){
+    public BookDTO getById(@PathVariable Long id) {
         return bookService.getBookById(id);
+    }
+
+    @DeleteMapping(path = "/{id}")
+    @ApiOperation("Exclui um Livro através do id.")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteById(@PathVariable Long id) {
+        bookService.deleteBookById(id);
     }
 }

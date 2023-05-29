@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -46,6 +47,11 @@ public class BookService extends DefaultService {
     }
 
     public BookDTO getBookById(Long id) {
-        return new ModelMapper().map(bookRepository.findById(id), BookDTO.class);
+        return new ModelMapper().map(bookRepository.findByIdFetchAuthors(id), BookDTO.class);
+    }
+
+    public void deleteBookById(Long id) {
+        Optional<Book> bookDb = bookRepository.findById(id);
+        bookRepository.deleteById(bookDb.get().getId());
     }
 }

@@ -18,5 +18,8 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     List<Book> findAllByNameContaining(String name, Pageable pageable);
 
+    @Query("SELECT b from Book b JOIN FETCH b.authors WHERE b.id = ?1 ")
+    Book findByIdFetchAuthors(Long id);
+
 //    Book findByBookId(Long id);
 }
