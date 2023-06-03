@@ -1,6 +1,7 @@
 package com.library.api.domain.book.repository.entity;
 
 import com.library.api.domain.author.repository.entity.Author;
+import com.library.api.domain.book.repository.enums.BookAvailability;
 import lombok.*;
 
 import javax.persistence.*;
@@ -23,6 +24,9 @@ public class Book {
 
     @Column
     private String description;
+
+    @Column
+    private BookAvailability bookAvailability;
 
     @Column
     private Date createdAt;

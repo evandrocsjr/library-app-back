@@ -1,6 +1,7 @@
 package com.library.api.domain.book.service;
 
 import com.library.api.domain.DefaultService;
+import com.library.api.domain.book.repository.enums.BookAvailability;
 import com.library.api.domain.book.service.dto.BookDTO;
 import com.library.api.domain.book.repository.entity.Book;
 import com.library.api.domain.book.repository.BookRepository;
@@ -25,6 +26,7 @@ public class BookService extends DefaultService {
     public BookDTO createBook(BookDTO newBook) {
         ModelMapper mapper = new ModelMapper();
         newBook.setCreatedAt(new Date());
+        newBook.setBookAvailability(BookAvailability.AVAILABLE);
         Book bookDb = bookRepository.save(mapper.map(newBook, Book.class));
         return mapper.map(bookDb, BookDTO.class);
     }

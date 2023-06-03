@@ -1,5 +1,6 @@
 package com.library.api.domain.book.controller.v1.dto;
 
+import com.library.api.domain.book.repository.enums.BookAvailability;
 import com.library.api.domain.dto.SimpleIdDTO;
 import lombok.*;
 
@@ -17,6 +18,7 @@ public class BookWebDTO {
     private String description;
     private Date createdAt;
     private Date releaseDate;
+    private BookAvailability bookAvailability;
     private List<SimpleIdDTO> authors;
 
 }

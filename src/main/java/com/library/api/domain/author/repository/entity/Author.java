@@ -20,5 +20,8 @@ public class Author {
     private String name;
 
     @Column
+    private String description;
+
+    @Column
     private Date createdAt;
 }
