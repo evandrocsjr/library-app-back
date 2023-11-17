@@ -45,7 +45,7 @@ public class AuthenticationController {
                 .builder()
                 .email(registerDTO.email())
                 .password(encryptedPassword)
-                .role(registerDTO.userRole())
+                .role(registerDTO.role())
                 .build();
 
         this.userRepository.save(newUser);
