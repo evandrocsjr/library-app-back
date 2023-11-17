@@ -1,5 +1,5 @@
 package com.library.api.domain.Authentication.controller.dto;
 
-public record AuthenticationDTO(String username, String password) {
+public record AuthenticationDTO(String email, String password) {
 
 }

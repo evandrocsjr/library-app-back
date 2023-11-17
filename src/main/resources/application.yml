@@ -9,11 +9,16 @@ spring:
         matching-strategy: ant_path_matcher
     datasource:
       url: jdbc:mysql://localhost:3306/library_api?useSSL=false&createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true
-      username: root
-      password: Ec@50248424
+      username: ${DB_ROOT}
+      password: ${DB_PWD}
     jpa:
       hibernate:
         ddl-auto: update
       open-in-view: false
       database-platform: org.hibernate.dialect.MySQL8Dialect
       show-sql: true
+api:
+  security:
+    token:
+      secret:
+        ${JWT_SECRET}

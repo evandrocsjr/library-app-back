@@ -1,25 +1,23 @@
 package com.library.api.domain.Authentication.controller;
 
 import com.library.api.domain.Authentication.controller.dto.AuthenticationDTO;
+import com.library.api.domain.Authentication.controller.dto.LoginResponseDTO;
 import com.library.api.domain.Authentication.controller.dto.RegisterDTO;
+import com.library.api.domain.security.TokenService;
 import com.library.api.domain.user.repository.UserRepository;
 import com.library.api.domain.user.repository.entity.User;
-import com.library.api.domain.user.repository.enums.UserRole;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("auth")
+@RequestMapping(value = "v1/auth")
 @RequiredArgsConstructor
 public class AuthenticationController {
 
@@ -27,22 +25,25 @@ public class AuthenticationController {
 
     private final UserRepository userRepository;
 
+    private final TokenService tokenService;
+
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody AuthenticationDTO login) {
-        var usernamePassword = new UsernamePasswordAuthenticationToken(login.username(), login.password());
+        var usernamePassword = new UsernamePasswordAuthenticationToken(login.email(), login.password());
         var auth = this.authenticationManager.authenticate(usernamePassword);
 
-        return ResponseEntity.ok().build();
+        var token = tokenService.generateToken((User) auth.getPrincipal());
+        return ResponseEntity.ok(new LoginResponseDTO(token));
     }
 
-    @PostMapping("/register")
+    @PostMapping(path = "/register")
     public ResponseEntity register(@RequestBody RegisterDTO registerDTO) {
-        if (this.userRepository.findByUsername(registerDTO.username()) != null) return ResponseEntity.badRequest().build();
+        if (this.userRepository.findByEmail(registerDTO.email()) != null) return ResponseEntity.badRequest().build();
         String encryptedPassword = new BCryptPasswordEncoder().encode(registerDTO.password());
 
         User newUser = User
                 .builder()
-                .username(registerDTO.username())
+                .email(registerDTO.email())
                 .password(encryptedPassword)
                 .role(registerDTO.userRole())
                 .build();
