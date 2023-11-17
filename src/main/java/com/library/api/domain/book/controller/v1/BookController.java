@@ -3,6 +3,7 @@ package com.library.api.domain.book.controller.v1;
 import com.library.api.domain.book.controller.v1.dto.BookWebDTO;
 import com.library.api.domain.book.service.BookService;
 import com.library.api.domain.book.service.dto.BookDTO;
+import com.library.api.exception.NotFoundException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -53,14 +54,14 @@ public class BookController {
     @GetMapping(path = "/{id}")
     @ApiOperation("Recupera um Livro através do id.")
     @ResponseStatus(HttpStatus.OK)
-    public BookDTO getById(@PathVariable Long id) {
+    public BookDTO getById(@PathVariable Long id) throws NotFoundException {
         return bookService.getBookById(id);
     }
 
     @DeleteMapping(path = "/{id}")
     @ApiOperation("Exclui um Livro através do id.")
-    @ResponseStatus(HttpStatus.OK)
-    public void deleteById(@PathVariable Long id) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long id) {
         bookService.deleteBookById(id);
     }
 }

@@ -4,7 +4,7 @@ import com.library.api.domain.author.repository.entity.Author;
 import com.library.api.domain.book.repository.enums.BookAvailability;
 import lombok.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.Date;
 import java.util.List;
 

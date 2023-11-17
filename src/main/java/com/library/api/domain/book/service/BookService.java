@@ -5,6 +5,7 @@ import com.library.api.domain.book.repository.enums.BookAvailability;
 import com.library.api.domain.book.service.dto.BookDTO;
 import com.library.api.domain.book.repository.entity.Book;
 import com.library.api.domain.book.repository.BookRepository;
+import com.library.api.exception.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.PageRequest;
@@ -20,6 +21,8 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class BookService extends DefaultService {
+
+    private static final String BOOK_NOT_EXISTS = "Livro não encontrado.";
 
     private final BookRepository bookRepository;
 
@@ -48,7 +51,12 @@ public class BookService extends DefaultService {
         return list.stream().map(b -> mapper.map(b, BookDTO.class)).collect(Collectors.toList());
     }
 
-    public BookDTO getBookById(Long id) {
+    public BookDTO getBookById(Long id) throws NotFoundException {
+        Book bookDb = bookRepository.findByIdFetchAuthors(id);
+
+        if(bookDb == null) {
+            throw new NotFoundException(BOOK_NOT_EXISTS);
+        }
         return new ModelMapper().map(bookRepository.findByIdFetchAuthors(id), BookDTO.class);
     }
 

@@ -2,7 +2,7 @@ package com.library.api.domain.address.repository.entity;
 
 import lombok.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @AllArgsConstructor
