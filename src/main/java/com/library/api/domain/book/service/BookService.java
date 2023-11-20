@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,11 +43,16 @@ public class BookService extends DefaultService {
         return bookList.stream().map(b -> mapper.map(b, BookDTO.class)).collect(Collectors.toList());
     }
 
+    @Transactional
     public List<BookDTO> getAllBooksFiltered(String bookName, int page) {
         Pageable pageable = PageRequest.of(page, DEFAULT_PAGE_SIZE);
         List<Book> list;
         ModelMapper mapper = new ModelMapper();
-        list = bookRepository.findAllByNameContaining(bookName, pageable);
+        if(bookName != null && !bookName.isBlank()) {
+            list = bookRepository.findAllByNameContaining(bookName, pageable);
+        } else {
+            list = bookRepository.findAll(pageable).stream().toList();
+        }
 
         return list.stream().map(b -> mapper.map(b, BookDTO.class)).collect(Collectors.toList());
     }

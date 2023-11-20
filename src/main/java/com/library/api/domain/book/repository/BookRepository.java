@@ -2,6 +2,7 @@ package com.library.api.domain.book.repository;
 
 import com.library.api.domain.book.repository.entity.Book;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

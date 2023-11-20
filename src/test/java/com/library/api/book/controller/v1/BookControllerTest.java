@@ -4,7 +4,12 @@ import com.library.api.domain.book.controller.v1.dto.BookWebDTO;
 import com.library.api.domain.book.repository.BookRepository;
 import com.library.api.domain.book.repository.entity.Book;
 import com.library.api.domain.book.service.dto.BookDTO;
+import com.library.api.domain.security.TokenService;
+import com.library.api.domain.user.repository.UserRepository;
+import com.library.api.domain.user.repository.entity.User;
+import com.library.api.security.TokenServiceTest;
 import com.library.api.testUtil.BookTestUtil;
+import com.library.api.testUtil.UserTestUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
@@ -14,9 +19,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@AutoConfigureTestDatabase
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class BookControllerTest {
 
@@ -24,11 +31,18 @@ public class BookControllerTest {
     private TestRestTemplate testRestTemplate;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private BookRepository bookRepository;
+
+    @Autowired
+    private TokenServiceTest tokenServiceTest;
 
     @Test
     void create_success() {
         HttpHeaders auth = new HttpHeaders();
+
         Book book = BookTestUtil.createBookToSave();
         ResponseEntity<BookWebDTO> response = testRestTemplate.exchange("/v1/books", HttpMethod.POST,
                 new HttpEntity<>(new ModelMapper().map(book, BookWebDTO.class), auth), BookWebDTO.class);
@@ -39,14 +53,31 @@ public class BookControllerTest {
 
     @Test
     void getAll() {
+        for (int i = 1; i <= 5; i++) {
+            bookRepository.save(BookTestUtil.createBookToSave());
+        }
         HttpHeaders auth = new HttpHeaders();
+        User newUser = UserTestUtil.createAdminUser(userRepository);
+        auth.add("Authorization", tokenServiceTest.generateToken(newUser));
 
+        ResponseEntity<List> response = testRestTemplate.exchange("/v1/books?page=1", HttpMethod.GET,
+                new HttpEntity<>(null, auth), List.class);
+
+
+        System.out.println(response.getBody());
+        Assertions.assertNotNull(response.getStatusCode());
+        Assertions.assertEquals(response.getStatusCode(), HttpStatus.OK);
+        Assertions.assertNotNull(response.getBody());
+        Assertions.assertEquals(5, response.getBody().size());
     }
 
     @Test
     void getByIds_success() {
         Book book = bookRepository.save(BookTestUtil.createBookToSave());
         HttpHeaders auth = new HttpHeaders();
+        User newUser = UserTestUtil.createAdminUser(userRepository);
+        auth.add("Authorization", tokenServiceTest.generateToken(newUser));
+
         ResponseEntity<BookDTO> response = testRestTemplate.exchange("/v1/books/" + book.getId(), HttpMethod.GET,
                 new HttpEntity<>(null, auth), BookDTO.class);
 
@@ -60,6 +91,8 @@ public class BookControllerTest {
     void delete_success() {
         Book book = bookRepository.save(BookTestUtil.createBookToSave());
         HttpHeaders auth = new HttpHeaders();
+
+        auth.add("Authorization", tokenServiceTest.generateToken(UserTestUtil.createAdminUser(userRepository)));
         ResponseEntity<String> response = testRestTemplate.exchange("/v1/books/" + book.getId(), HttpMethod.DELETE,
                 new HttpEntity<>(null, auth), String.class);
         Assertions.assertNotNull(response.getStatusCode());

@@ -1,7 +1,6 @@
 package com.library.api.domain.security;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -32,19 +31,15 @@ public class SecurityConfigurations {
                     .requestMatchers(HttpMethod.POST, "/v1/auth/register").permitAll()
                     .requestMatchers(HttpMethod.POST, "/v1/auth/login").permitAll()
                     .requestMatchers(HttpMethod.GET, "/v1/books/getAllByLicense").hasRole("ADMIN")
-//                        .requestMatchers(HttpMethod.DELETE, "/v1/books").permitAll()
-//                        .requestMatchers("/v1/books/getAllByLicense").permitAll()
-//                        .requestMatchers(String.valueOf(HttpMethod.POST), "/books").hasRole("ADMIN")
                     .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
-
     }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        return  authenticationConfiguration.getAuthenticationManager();
+        return authenticationConfiguration.getAuthenticationManager();
     }
 
     @Bean
