@@ -4,10 +4,10 @@ import com.library.api.domain.book.controller.v1.dto.BookWebDTO;
 import com.library.api.domain.book.service.BookService;
 import com.library.api.domain.book.service.dto.BookDTO;
 import com.library.api.exception.NotFoundException;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -17,17 +17,16 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "v1/books")
-@CrossOrigin
 @RequiredArgsConstructor
-@Api(tags = "Books")
+@Tag(name = "Books")
 public class BookController {
 
     private final BookService bookService;
 
     @PostMapping
-    @ApiOperation("Cadastra um Livro.")
+    @Operation(summary = "Cadastra um Livro.")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Livro cadastrado")
+            @ApiResponse(responseCode = "200", description = "Livro cadastrado")
     })
     @ResponseStatus(HttpStatus.CREATED)
     public BookWebDTO create(@RequestBody BookWebDTO bookDTO) {
@@ -37,14 +36,14 @@ public class BookController {
     }
 
     @GetMapping("/getAllByLicense")
-    @ApiOperation("Recupera os Livros da licença.")
+    @Operation(summary = "Recupera os Livros da licença.")
     @ResponseStatus(HttpStatus.OK)
     public List<BookDTO> getAllByLicense() {
         return bookService.getAllBooksByLicense();
     }
 
     @GetMapping
-    @ApiOperation("Recupera os Livros da Licença(resultado paginado).")
+    @Operation(summary = "Recupera os Livros da Licença(resultado paginado).")
     @ResponseStatus(HttpStatus.OK)
     public List<BookDTO> getAll(@RequestParam(value = "name", required = false) String bookName,
                                 @RequestParam("page") int page) {
@@ -52,16 +51,23 @@ public class BookController {
     }
 
     @GetMapping(path = "/{id}")
-    @ApiOperation("Recupera um Livro através do id.")
+    @Operation(summary = "Recupera um Livro através do id.")
     @ResponseStatus(HttpStatus.OK)
     public BookDTO getById(@PathVariable Long id) throws NotFoundException {
         return bookService.getBookById(id);
     }
 
     @DeleteMapping(path = "/{id}")
-    @ApiOperation("Exclui um Livro através do id.")
+    @Operation(summary = "Exclui um Livro através do id.")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
         bookService.deleteBookById(id);
+    }
+
+    @PutMapping
+    @Operation(summary = "Atualiza um Livro pelo id.")
+    @ResponseStatus
+    public void update() {
+
     }
 }

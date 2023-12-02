@@ -24,4 +24,7 @@ public class Author {
 
     @Column
     private Date createdAt;
+
+    @Column
+    private Date dateOfBirth;
 }

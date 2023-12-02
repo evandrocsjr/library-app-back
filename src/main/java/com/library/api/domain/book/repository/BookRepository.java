@@ -12,8 +12,6 @@ import java.util.List;
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long> {
 
-    List<Book> findAll();
-
     @Query("SELECT b from Book b LEFT JOIN FETCH b.authors WHERE b IN ?1")
     List<Book> findByIdListFetchAuthors(List<Book> books);
 

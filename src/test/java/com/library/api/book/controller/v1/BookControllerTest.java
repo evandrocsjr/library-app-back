@@ -42,6 +42,8 @@ public class BookControllerTest {
     @Test
     void create_success() {
         HttpHeaders auth = new HttpHeaders();
+        User newUser = UserTestUtil.createAdminUser(userRepository);
+        auth.add("Authorization", tokenServiceTest.generateToken(newUser));
 
         Book book = BookTestUtil.createBookToSave();
         ResponseEntity<BookWebDTO> response = testRestTemplate.exchange("/v1/books", HttpMethod.POST,
@@ -63,8 +65,6 @@ public class BookControllerTest {
         ResponseEntity<List> response = testRestTemplate.exchange("/v1/books?page=1", HttpMethod.GET,
                 new HttpEntity<>(null, auth), List.class);
 
-
-        System.out.println(response.getBody());
         Assertions.assertNotNull(response.getStatusCode());
         Assertions.assertEquals(response.getStatusCode(), HttpStatus.OK);
         Assertions.assertNotNull(response.getBody());

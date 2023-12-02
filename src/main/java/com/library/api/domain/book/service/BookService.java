@@ -1,16 +1,15 @@
 package com.library.api.domain.book.service;
 
 import com.library.api.domain.DefaultService;
+import com.library.api.domain.book.repository.BookRepository;
+import com.library.api.domain.book.repository.entity.Book;
 import com.library.api.domain.book.repository.enums.BookAvailability;
 import com.library.api.domain.book.service.dto.BookDTO;
-import com.library.api.domain.book.repository.entity.Book;
-import com.library.api.domain.book.repository.BookRepository;
 import com.library.api.exception.NotFoundException;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,7 +19,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class BookService extends DefaultService {
 
     private static final String BOOK_NOT_EXISTS = "Livro não encontrado.";

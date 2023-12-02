@@ -11,6 +11,7 @@ public class AuthorWebDTO {
 
     private Long id;
     private String name;
+    private Date dateOfBirth;
     private String description;
     private Date createdAt;
 }
