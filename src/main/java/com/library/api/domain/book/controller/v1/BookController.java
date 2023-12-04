@@ -60,14 +60,15 @@ public class BookController {
     @DeleteMapping(path = "/{id}")
     @Operation(summary = "Exclui um Livro através do id.")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id) {
+    public void delete(@PathVariable Long id) throws NotFoundException {
         bookService.deleteBookById(id);
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     @Operation(summary = "Atualiza um Livro pelo id.")
     @ResponseStatus
-    public void update() {
-
+    public BookDTO update(@PathVariable long id,
+                       @RequestBody BookWebDTO bookWebDTO) throws NotFoundException {
+        return bookService.updateBook(id, bookWebDTO);
     }
 }

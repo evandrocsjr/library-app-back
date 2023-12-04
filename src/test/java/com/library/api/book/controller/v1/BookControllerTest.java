@@ -54,7 +54,25 @@ public class BookControllerTest {
     }
 
     @Test
-    void getAll() {
+    void getAllByLicense_success() {
+        for (int i = 1; i <= 25; i++) {
+            bookRepository.save(BookTestUtil.createBookToSave());
+        }
+        HttpHeaders auth = new HttpHeaders();
+        User newUser = UserTestUtil.createAdminUser(userRepository);
+        auth.add("Authorization", tokenServiceTest.generateToken(newUser));
+
+        ResponseEntity<List> response = testRestTemplate.exchange("/v1/books/getAllByLicense", HttpMethod.GET,
+                new HttpEntity<>(null, auth), List.class);
+
+        Assertions.assertNotNull(response.getStatusCode());
+        Assertions.assertEquals(response.getStatusCode(), HttpStatus.OK);
+        Assertions.assertNotNull(response.getBody());
+        Assertions.assertEquals(25, response.getBody().size());
+    }
+
+    @Test
+    void getAll_success() {
         for (int i = 1; i <= 5; i++) {
             bookRepository.save(BookTestUtil.createBookToSave());
         }
@@ -72,7 +90,7 @@ public class BookControllerTest {
     }
 
     @Test
-    void getByIds_success() {
+    void getById_success() {
         Book book = bookRepository.save(BookTestUtil.createBookToSave());
         HttpHeaders auth = new HttpHeaders();
         User newUser = UserTestUtil.createAdminUser(userRepository);

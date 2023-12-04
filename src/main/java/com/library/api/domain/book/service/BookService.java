@@ -1,6 +1,7 @@
 package com.library.api.domain.book.service;
 
 import com.library.api.domain.DefaultService;
+import com.library.api.domain.book.controller.v1.dto.BookWebDTO;
 import com.library.api.domain.book.repository.BookRepository;
 import com.library.api.domain.book.repository.entity.Book;
 import com.library.api.domain.book.repository.enums.BookAvailability;
@@ -65,8 +66,19 @@ public class BookService extends DefaultService {
         return new ModelMapper().map(bookRepository.findByIdFetchAuthors(id), BookDTO.class);
     }
 
-    public void deleteBookById(Long id) {
+    public void deleteBookById(Long id) throws NotFoundException {
         Optional<Book> bookDb = bookRepository.findById(id);
+        if(bookDb.isEmpty()) throw new NotFoundException(BOOK_NOT_EXISTS);
         bookRepository.deleteById(bookDb.get().getId());
+    }
+
+    public BookDTO updateBook(long id, BookWebDTO bookUpdate) throws NotFoundException {
+        ModelMapper mapper = new ModelMapper();
+        Optional<Book> bookDb = bookRepository.findById(id);
+        if(bookDb.isEmpty()) throw new NotFoundException(BOOK_NOT_EXISTS);
+        Book book = bookDb.get();
+        bookUpdate.setId(book.getId());
+        Book savedBook = bookRepository.save(mapper.map(bookUpdate, Book.class));
+        return mapper.map(savedBook, BookDTO.class);
     }
 }
