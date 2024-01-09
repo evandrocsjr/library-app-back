@@ -4,7 +4,7 @@ import com.library.api.domain.user.controller.v1.dto.UserWebDTO;
 import com.library.api.domain.user.service.dto.UserDTO;
 import com.library.api.domain.user.service.UserService;
 import com.library.api.exception.LibraryException;
-import com.library.api.exception.NotFoundException;
+import com.library.api.exception.CustomerNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +33,7 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Resgata usuário da licença através do id.")
     public UserDTO getById(@PathVariable("id") int id) throws
-            NotFoundException {
+            CustomerNotFoundException {
         return userService.getUserById(id);
     }
 

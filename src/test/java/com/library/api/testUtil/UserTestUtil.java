@@ -19,4 +19,16 @@ public class UserTestUtil {
 
         return userRepository.save(newUser);
     }
+
+    public static User createBasicUser(UserRepository userRepository) {
+        User newUser = User
+                .builder()
+                .role(UserRole.USER)
+                .password("123456789")
+                .email("evandro@gmail.com")
+                .name("evandro")
+                .build();
+
+        return userRepository.save(newUser);
+    }
 }

@@ -3,7 +3,7 @@ package com.library.api.domain.book.controller.v1;
 import com.library.api.domain.book.controller.v1.dto.BookWebDTO;
 import com.library.api.domain.book.service.BookService;
 import com.library.api.domain.book.service.dto.BookDTO;
-import com.library.api.exception.NotFoundException;
+import com.library.api.exception.CustomerNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -53,22 +53,23 @@ public class BookController {
     @GetMapping(path = "/{id}")
     @Operation(summary = "Recupera um Livro através do id.")
     @ResponseStatus(HttpStatus.OK)
-    public BookDTO getById(@PathVariable Long id) throws NotFoundException {
+    public BookDTO getById(@PathVariable Long id) throws CustomerNotFoundException {
+        System.out.println("ceeg");
         return bookService.getBookById(id);
     }
 
     @DeleteMapping(path = "/{id}")
     @Operation(summary = "Exclui um Livro através do id.")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id) throws NotFoundException {
+    public void delete(@PathVariable Long id) throws CustomerNotFoundException {
         bookService.deleteBookById(id);
     }
 
     @PutMapping("/{id}")
     @Operation(summary = "Atualiza um Livro pelo id.")
-    @ResponseStatus
+    @ResponseStatus(HttpStatus.OK)
     public BookDTO update(@PathVariable long id,
-                       @RequestBody BookWebDTO bookWebDTO) throws NotFoundException {
+                          @RequestBody BookWebDTO bookWebDTO) throws CustomerNotFoundException {
         return bookService.updateBook(id, bookWebDTO);
     }
 }
