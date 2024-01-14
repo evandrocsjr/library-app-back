@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+  db:
+    image: mysql:8.0.31
+    restart: always
+    env_file: ## ARQUIVO ONDE ESTÃO AS VARIÁVEIS DE AMBIENTE
+      - db.env
+    ports: ##DEFINE EM QUAL PORTA DO PC IRÁ RODAR
+      - "3302:3302"
+    networks:
+      - backend
+
+  library_app:
+    image: evandrocsjr/library_app:1.0
+    restart: always
+    env_file: ## ARQUIVO ONDE ESTÃO AS VARIÁVEIS DE AMBIENTE
+      - api.env
+    ports:
+      - "8443:8443"
+    depends_on: ## DEFINE QUE ESTE CONTAINER IRÁ EXECUTAR SOMENTE APÓS O BANCO SER INICIALIZADO
+      - db
+    networks:
+      - backend
+
+networks:
+  backend: ## POR DEFAULT JÁ É BRIDGE
+    driver: bridge

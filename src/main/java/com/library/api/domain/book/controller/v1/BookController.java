@@ -3,7 +3,7 @@ package com.library.api.domain.book.controller.v1;
 import com.library.api.domain.book.controller.v1.dto.BookWebDTO;
 import com.library.api.domain.book.service.BookService;
 import com.library.api.domain.book.service.dto.BookDTO;
-import com.library.api.exception.CustomerNotFoundException;
+import com.library.api.domain.exception.CustomerNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;

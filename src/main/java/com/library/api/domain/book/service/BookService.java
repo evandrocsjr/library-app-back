@@ -6,7 +6,7 @@ import com.library.api.domain.book.repository.BookRepository;
 import com.library.api.domain.book.repository.entity.Book;
 import com.library.api.domain.book.repository.enums.BookAvailability;
 import com.library.api.domain.book.service.dto.BookDTO;
-import com.library.api.exception.CustomerNotFoundException;
+import com.library.api.domain.exception.CustomerNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.PageRequest;

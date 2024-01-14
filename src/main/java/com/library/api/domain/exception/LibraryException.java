@@ -1,4 +1,4 @@
-package com.library.api.exception;
+package com.library.api.domain.exception;
 
 public class LibraryException extends Exception {
 

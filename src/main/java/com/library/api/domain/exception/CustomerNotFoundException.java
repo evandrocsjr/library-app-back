@@ -1,4 +1,4 @@
-package com.library.api.exception;
+package com.library.api.domain.exception;
 
 import java.io.Serial;
 
