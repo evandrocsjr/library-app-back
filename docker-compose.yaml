@@ -14,7 +14,7 @@ services:
     image: evandrocsjr/library_app:1.0
     restart: always
     env_file: ## ARQUIVO ONDE ESTÃO AS VARIÁVEIS DE AMBIENTE
-      - api.env
+      - lib_app.env
     ports:
       - "8443:8443"
     depends_on: ## DEFINE QUE ESTE CONTAINER IRÁ EXECUTAR SOMENTE APÓS O BANCO SER INICIALIZADO
